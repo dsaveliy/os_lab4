@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="killer/killer.vcxproj" Id="66a2f79a-cc46-46c8-a774-f08cce656546" />
+</Solution>
