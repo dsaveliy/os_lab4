@@ -1,4 +1,4 @@
-#include <windows.h>
+ï»¿#include <windows.h>
 #include <tlhelp32.h>
 #include <vector>
 #include <iostream>
@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
             }
             catch (...)
             {
-                std::cerr << "[Killer] Íåêîððåêòíûé PID: " << argv[2] << std::endl;
+                std::cerr << "[Killer] ÐÐµÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½Ñ‹Ð¹ PID: " << argv[2] << std::endl;
                 return 1;
             }
         }
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     {
         if (!KillProcessById(pidValue))
         {
-            std::cerr << "[Killer] Íå óäàëîñü çàâåðøèòü ïðîöåññ ïî id " << pidValue << std::endl;
+            std::cerr << "[Killer] ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚ÑŒ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ Ð¿Ð¾ id " << pidValue << std::endl;
             ok = false;
         }
     }
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     {
         if (!KillProcessesByName(nameValue))
         {
-            std::cerr << "[Killer] Íå óäàëîñü çàâåðøèòü ïðîöåññû ñ èìåíåì " << nameValue << std::endl;
+            std::cerr << "[Killer] ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚ÑŒ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÑ‹ Ñ Ð¸Ð¼ÐµÐ½ÐµÐ¼ " << nameValue << std::endl;
             ok = false;
         }
     }
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
     {
         if (!KillFromEnvList(envValue))
         {
-            std::cerr << "[Killer] Íå óäàëîñü çàâåðøèòü âñå ïðîöåññû èç PROC_TO_KILL" << std::endl;
+            std::cerr << "[Killer] ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚ÑŒ Ð²ÑÐµ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÑ‹ Ð¸Ð· PROC_TO_KILL" << std::endl;
             ok = false;
         }
     }
@@ -76,14 +76,14 @@ int main(int argc, char* argv[])
 }
 
 bool GetEnvVar(const char* name, std::string& value) {
-    DWORD needed = GetEnvironmentVariableA(name, nullptr, 0); // ïîëó÷åíèå ðàçìåðà
+    DWORD needed = GetEnvironmentVariableA(name, nullptr, 0); // Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð°
     if (needed == 0) {
         value.clear();
         return false;
     }
 
     std::string buffer(needed, '\0');
-    GetEnvironmentVariableA(name, buffer.data(), needed); // êëàäåì çíàå÷íèå â áóôåð
+    GetEnvironmentVariableA(name, buffer.data(), needed); // ÐºÐ»Ð°Ð´ÐµÐ¼ Ð·Ð½Ð°ÐµÑ‡Ð½Ð¸Ðµ Ð² Ð±ÑƒÑ„ÐµÑ€
 
     if (!buffer.empty() && buffer.back() == '\0')
         buffer.pop_back();
@@ -95,51 +95,51 @@ bool GetEnvVar(const char* name, std::string& value) {
 bool KillProcessById(DWORD pid)
 {
     if (pid == 0) {
-        std::cout << "[Killer] Ïîïûòêà óäàëèòü íåêîððåêòíî ñîçäàííûé ïðîöåññ\n";
+        std::cout << "[Killer] ÐŸÐ¾Ð¿Ñ‹Ñ‚ÐºÐ° ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð½ÐµÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½Ð¾ ÑÐ¾Ð·Ð´Ð°Ð½Ð½Ñ‹Ð¹ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ\n";
         return false;
     }
-    HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pid); // ïîëó÷àåì äåñêðèïòîð äëÿ îáðàáîòêè ïðîöåññà
+    HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pid); // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð´ÐµÑÐºÑ€Ð¸Ð¿Ñ‚Ð¾Ñ€ Ð´Ð»Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ°
     if (!hProcess) {
-        std::cout << "[Killer] Íå óäàëîñü îòêðûòü ïðîöåññ PID=" << pid << "\n";
+        std::cout << "[Killer] ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ PID=" << pid << "\n";
         return false;
     }
-    BOOL ok = TerminateProcess(hProcess, 0); // ñòðîãî çàâåðøàåì ñ êîäîì 0
+    BOOL ok = TerminateProcess(hProcess, 0); // ÑÑ‚Ñ€Ð¾Ð³Ð¾ Ð·Ð°Ð²ÐµÑ€ÑˆÐ°ÐµÐ¼ Ñ ÐºÐ¾Ð´Ð¾Ð¼ 0
     CloseHandle(hProcess); 
     if (ok) {
-        std::cout << "[Killer] Óñïåøíðî çàâåðø¸í ïðîöåññ PID=" << pid << "\n";
+        std::cout << "[Killer] Ð£ÑÐ¿ÐµÑˆÐ½Ñ€Ð¾ Ð·Ð°Ð²ÐµÑ€ÑˆÑ‘Ð½ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ PID=" << pid << "\n";
     }
     else {
-        std::cout << "[Killer] Íå óäàëîñü çàâåðøèòü ïðîöåññ PID=" << pid << ", îøèáêà: " << GetLastError() << "\n";
+        std::cout << "[Killer] ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚ÑŒ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ PID=" << pid << ", Ð¾ÑˆÐ¸Ð±ÐºÐ°: " << GetLastError() << "\n";
     }
-    return ok != 0; // ÷òî ïðàâèëüíî âåðíóòü òèï bool, èáî ëîãèêà bool è BOOL ïîä êàïîòîì ÷óòü îòëè÷àåòñÿ
+    return ok != 0; // Ñ‡Ñ‚Ð¾ Ð¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð¾ Ð²ÐµÑ€Ð½ÑƒÑ‚ÑŒ Ñ‚Ð¸Ð¿ bool, Ð¸Ð±Ð¾ Ð»Ð¾Ð³Ð¸ÐºÐ° bool Ð¸ BOOL Ð¿Ð¾Ð´ ÐºÐ°Ð¿Ð¾Ñ‚Ð¾Ð¼ Ñ‡ÑƒÑ‚ÑŒ Ð¾Ñ‚Ð»Ð¸Ñ‡Ð°ÐµÑ‚ÑÑ
 }
 
 bool KillProcessesByName(const std::string& name)
 {
-    HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); // äåëàåì "ñíèìîê" âñåõ ïðîöåññîâ â ìîìåíòå
+    HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); // Ð´ÐµÐ»Ð°ÐµÐ¼ "ÑÐ½Ð¸Ð¼Ð¾Ðº" Ð²ÑÐµÑ… Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ð² Ð² Ð¼Ð¾Ð¼ÐµÐ½Ñ‚Ðµ
     if (hSnap == INVALID_HANDLE_VALUE) {
         return false;
     }
 
-    PROCESSENTRY32 pe; // ñòðóêòóðà äëÿ èíôîðìàöèè î ïðîöåññå (áóäåì ïîî÷åðåäíî èñïîëüçîâàòü äëÿ êàæäîãî èç ïðîöåññîâ)
+    PROCESSENTRY32 pe; // ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð° Ð´Ð»Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ Ð¾ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐµ (Ð±ÑƒÐ´ÐµÐ¼ Ð¿Ð¾Ð¾Ñ‡ÐµÑ€ÐµÐ´Ð½Ð¾ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð´Ð»Ñ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ð¸Ð· Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ð²)
     pe.dwSize = sizeof(pe);
     bool anyKilled = false;
-    int foundCount = 0;      // ñêîëüêî ïðîöåññîâ ñ òàêèì èìåíåì íàøëè
-    int killedCount = 0;     // ñêîëüêî èç íèõ ðåàëüíî çàâåðøèëè
+    int foundCount = 0;      // ÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ð² Ñ Ñ‚Ð°ÐºÐ¸Ð¼ Ð¸Ð¼ÐµÐ½ÐµÐ¼ Ð½Ð°ÑˆÐ»Ð¸
+    int killedCount = 0;     // ÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð¸Ð· Ð½Ð¸Ñ… Ñ€ÐµÐ°Ð»ÑŒÐ½Ð¾ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ð»Ð¸
 
-    if (Process32First(hSnap, &pe)) { // êëàä¸ì â pe ïåðâûé ïðîöåññ è ïðè íàëè÷èè õîòÿ áû îäíîãî çàõîäèì â öèêë
-        do { // äàëåå öèêëîì áóäåì êëàñòü âñå îñòàëüíûå
-            if (_stricmp(pe.szExeFile, name.c_str()) == 0) { // öèêëîì ñðàâíèâàåì âñå ïðîöåññû èç ñíèìêà ñ èñêîìûì
+    if (Process32First(hSnap, &pe)) { // ÐºÐ»Ð°Ð´Ñ‘Ð¼ Ð² pe Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ Ð¸ Ð¿Ñ€Ð¸ Ð½Ð°Ð»Ð¸Ñ‡Ð¸Ð¸ Ñ…Ð¾Ñ‚Ñ Ð±Ñ‹ Ð¾Ð´Ð½Ð¾Ð³Ð¾ Ð·Ð°Ñ…Ð¾Ð´Ð¸Ð¼ Ð² Ñ†Ð¸ÐºÐ»
+        do { // Ð´Ð°Ð»ÐµÐµ Ñ†Ð¸ÐºÐ»Ð¾Ð¼ Ð±ÑƒÐ´ÐµÐ¼ ÐºÐ»Ð°ÑÑ‚ÑŒ Ð²ÑÐµ Ð¾ÑÑ‚Ð°Ð»ÑŒÐ½Ñ‹Ðµ
+            if (_stricmp(pe.szExeFile, name.c_str()) == 0) { // Ñ†Ð¸ÐºÐ»Ð¾Ð¼ ÑÑ€Ð°Ð²Ð½Ð¸Ð²Ð°ÐµÐ¼ Ð²ÑÐµ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÑ‹ Ð¸Ð· ÑÐ½Ð¸Ð¼ÐºÐ° Ñ Ð¸ÑÐºÐ¾Ð¼Ñ‹Ð¼
                 ++foundCount;
-                std::cout << "[Killer] Ïî èìåíè " << name << " íàéäåí ïðîöåññ " << pe.szExeFile
+                std::cout << "[Killer] ÐŸÐ¾ Ð¸Ð¼ÐµÐ½Ð¸ " << name << " Ð½Ð°Ð¹Ð´ÐµÐ½ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ " << pe.szExeFile
                     << " (PID=" << pe.th32ProcessID << ")\n";
                 if (KillProcessById(pe.th32ProcessID)) {
-                    std::cout << "[Killer] (óñïåøíî çàâåðø¸í ïðîöåññ ñ íàçâàíèåì " << pe.szExeFile << ")\n";
+                    std::cout << "[Killer] (ÑƒÑÐ¿ÐµÑˆÐ½Ð¾ Ð·Ð°Ð²ÐµÑ€ÑˆÑ‘Ð½ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ Ñ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸ÐµÐ¼ " << pe.szExeFile << ")\n";
                     anyKilled = true;
                     ++killedCount;
                 }
                 else {
-                    std::cout << "[Killer] (íå óäàëîñü çàâåðøèòü ïðîöåññ ñ íàçâàíèåì " << pe.szExeFile << ")\n";
+                    std::cout << "[Killer] (Ð½Ðµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚ÑŒ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ Ñ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸ÐµÐ¼ " << pe.szExeFile << ")\n";
                 }
             }
 
@@ -147,11 +147,11 @@ bool KillProcessesByName(const std::string& name)
     }
 
     if (foundCount == 0) {
-        std::cout << "[Killer] Íå íàéäåíî ïðîöåññîâ ñ èìåíåì " << name << "\n";
+        std::cout << "[Killer] ÐÐµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ð² Ñ Ð¸Ð¼ÐµÐ½ÐµÐ¼ " << name << "\n";
     }
     else {
-        std::cout << "[Killer] Èòîã: çàâåðøåíî " << killedCount
-            << " èç " << foundCount << " ïðîöåññîâ ñ èìåíåì " << name << "\n";
+        std::cout << "[Killer] Ð˜Ñ‚Ð¾Ð³: Ð·Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð¾ " << killedCount
+            << " Ð¸Ð· " << foundCount << " Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ð² Ñ Ð¸Ð¼ÐµÐ½ÐµÐ¼ " << name << "\n";
     }
 
     CloseHandle(hSnap);
@@ -160,7 +160,7 @@ bool KillProcessesByName(const std::string& name)
 
 bool KillFromEnvList(const std::string& envValue)
 {
-    // ñïëèòóåì ñòðîêó (óïðîùåííûé ïîäõîä ñ÷èòàÿ ââîä êîððåêòíûì)
+    // ÑÐ¿Ð»Ð¸Ñ‚ÑƒÐµÐ¼ ÑÑ‚Ñ€Ð¾ÐºÑƒ (ÑƒÐ¿Ñ€Ð¾Ñ‰ÐµÐ½Ð½Ñ‹Ð¹ Ð¿Ð¾Ð´Ñ…Ð¾Ð´ ÑÑ‡Ð¸Ñ‚Ð°Ñ Ð²Ð²Ð¾Ð´ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð½Ñ‹Ð¼)
     std::vector<std::string> names;
     std::string cur;
     for (char ch : envValue) {
@@ -177,11 +177,11 @@ bool KillFromEnvList(const std::string& envValue)
         names.push_back(cur);
 
     if (names.empty()) {
-        std::cout << "[Killer] Â PROC_TO_KILL íåò èì¸í ïðîöåññîâ\n";
+        std::cout << "[Killer] Ð’ PROC_TO_KILL Ð½ÐµÑ‚ Ð¸Ð¼Ñ‘Ð½ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ð²\n";
         return false;
     }
 
-    std::cout << "[Killer] Ïðîöåññû èç ïåðåìåííîé îêðóæåíèÿ PROC_TO_KILL: ";
+    std::cout << "[Killer] ÐŸÑ€Ð¾Ñ†ÐµÑÑÑ‹ Ð¸Ð· Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹ Ð¾ÐºÑ€ÑƒÐ¶ÐµÐ½Ð¸Ñ PROC_TO_KILL: ";
     for (size_t i = 0; i < names.size(); ++i) {
         std::cout << names[i];
         if (i + 1 < names.size())

@@ -1,4 +1,4 @@
-#include <windows.h>
+п»ї#include <windows.h>
 #include <tlhelp32.h>
 #include <iostream>
 #include <string>
@@ -12,8 +12,8 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
-    // запускаем процессы:
-    // 3 chrome, 2 блокнота, 2 пэинта, 1 телеграм
+    // Р·Р°РїСѓСЃРєР°РµРј РїСЂРѕС†РµСЃСЃС‹:
+    // 3 chrome, 2 Р±Р»РѕРєРЅРѕС‚Р°, 2 РїСЌРёРЅС‚Р°, 1 С‚РµР»РµРіСЂР°Рј
     DWORD chrome1 = StartProcess("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
     DWORD chrome2 = StartProcess("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
     DWORD chrome3 = StartProcess("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
@@ -24,11 +24,11 @@ int main()
     DWORD mspaint1 = StartProcess("mspaint.exe");
     DWORD mspaint2 = StartProcess("mspaint.exe");
 
-    DWORD tg = StartProcess("C:\\Users\\Пользователь\\AppData\\Roaming\\Telegram Desktop\\Telegram.exe");
+    DWORD tg = StartProcess("C:\\Users\\РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ\\AppData\\Roaming\\Telegram Desktop\\Telegram.exe");
 
     std::string cmd;
 
-    std::cout << "\n----- Состояние сразу после создания процессов -----\n";
+    std::cout << "\n----- РЎРѕСЃС‚РѕСЏРЅРёРµ СЃСЂР°Р·Сѓ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ РїСЂРѕС†РµСЃСЃРѕРІ -----\n";
     ExistsProcessById(chrome1);
     ExistsProcessById(chrome2);
     ExistsProcessById(chrome3);
@@ -38,19 +38,19 @@ int main()
     ExistsProcessById(mspaint2);
     ExistsProcessById(tg);
 
-    // убиваем блокноты по имени
-    std::cout << "\n----- Убиваем все notepad.exe по имени -----\n";
+    // СѓР±РёРІР°РµРј Р±Р»РѕРєРЅРѕС‚С‹ РїРѕ РёРјРµРЅРё
+    std::cout << "\n----- РЈР±РёРІР°РµРј РІСЃРµ notepad.exe РїРѕ РёРјРµРЅРё -----\n";
     RunKiller("Killer.exe --name notepad.exe");
 
-    // убиваем mspaint по PID
-    std::cout << "\n----- Убиваем один mspaint.exe по PID (т.к. по PID, то второй остался) -----\n";
+    // СѓР±РёРІР°РµРј mspaint РїРѕ PID
+    std::cout << "\n----- РЈР±РёРІР°РµРј РѕРґРёРЅ mspaint.exe РїРѕ PID (С‚.Рє. РїРѕ PID, С‚Рѕ РІС‚РѕСЂРѕР№ РѕСЃС‚Р°Р»СЃСЏ) -----\n";
 
     cmd = "Killer.exe --id " + std::to_string(mspaint1);
     RunKiller(cmd);
 
 
-    // проверяем актуальное состояние всех процессов
-    std::cout << "\n----- Состояние после убийства notepad.exe (2 шт. по имени) и mspaint.exe(1 шт. по айди) -----\n";
+    // РїСЂРѕРІРµСЂСЏРµРј Р°РєС‚СѓР°Р»СЊРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РІСЃРµС… РїСЂРѕС†РµСЃСЃРѕРІ
+    std::cout << "\n----- РЎРѕСЃС‚РѕСЏРЅРёРµ РїРѕСЃР»Рµ СѓР±РёР№СЃС‚РІР° notepad.exe (2 С€С‚. РїРѕ РёРјРµРЅРё) Рё mspaint.exe(1 С€С‚. РїРѕ Р°Р№РґРё) -----\n";
     ExistsProcessById(chrome1);
     ExistsProcessById(chrome2);
     ExistsProcessById(chrome3);
@@ -60,19 +60,19 @@ int main()
     ExistsProcessById(mspaint2);
     ExistsProcessById(tg);
 
-    // все, кроме mspaint, добавляем в PROC_TO_KILL
-    std::cout << "\n----- Устанавливаем PROC_TO_KILL для оставшихся процессов -----\n";
+    // РІСЃРµ, РєСЂРѕРјРµ mspaint, РґРѕР±Р°РІР»СЏРµРј РІ PROC_TO_KILL
+    std::cout << "\n----- РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј PROC_TO_KILL РґР»СЏ РѕСЃС‚Р°РІС€РёС…СЃСЏ РїСЂРѕС†РµСЃСЃРѕРІ -----\n";
     SetEnvironmentVariableA("PROC_TO_KILL", "chrome, Telegram");
-    std::cout << "[User] PROC_TO_KILL установлена\n";
+    std::cout << "[User] PROC_TO_KILL СѓСЃС‚Р°РЅРѕРІР»РµРЅР°\n";
 
-    // убиваем один chrome по айди через Killer
-    // а также автоматически добиваются и оставшиеся по PROC_TO_KILL (кроме ворда)
-    std::cout << "\n----- Убиваем один chrome.exe по айди (остальные сами автоматом по PROC_TO_KILL) -----\n";
+    // СѓР±РёРІР°РµРј РѕРґРёРЅ chrome РїРѕ Р°Р№РґРё С‡РµСЂРµР· Killer
+    // Р° С‚Р°РєР¶Рµ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РґРѕР±РёРІР°СЋС‚СЃСЏ Рё РѕСЃС‚Р°РІС€РёРµСЃСЏ РїРѕ PROC_TO_KILL (РєСЂРѕРјРµ РІРѕСЂРґР°)
+    std::cout << "\n----- РЈР±РёРІР°РµРј РѕРґРёРЅ chrome.exe РїРѕ Р°Р№РґРё (РѕСЃС‚Р°Р»СЊРЅС‹Рµ СЃР°РјРё Р°РІС‚РѕРјР°С‚РѕРј РїРѕ PROC_TO_KILL) -----\n";
     cmd = "Killer.exe --id " + std::to_string(chrome1);
     RunKiller(cmd);
 
-    // проверка существования всех процессов
-    std::cout << "\n----- Состояние всех процессов после PROC_TO_KILL-----\n";
+    // РїСЂРѕРІРµСЂРєР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ РІСЃРµС… РїСЂРѕС†РµСЃСЃРѕРІ
+    std::cout << "\n----- РЎРѕСЃС‚РѕСЏРЅРёРµ РІСЃРµС… РїСЂРѕС†РµСЃСЃРѕРІ РїРѕСЃР»Рµ PROC_TO_KILL-----\n";
     ExistsProcessById(chrome1);
     ExistsProcessById(chrome2);
     ExistsProcessById(chrome3);
@@ -82,14 +82,14 @@ int main()
     ExistsProcessById(mspaint2);
     ExistsProcessById(tg);
 
-    // кладем mspaint в PROC_TO_KILL и делаем вызов killer.exe без параметров
-    std::cout << "\n----- Устанавливаем PROC_TO_KILL для mspaint.exe -----\n";
+    // РєР»Р°РґРµРј mspaint РІ PROC_TO_KILL Рё РґРµР»Р°РµРј РІС‹Р·РѕРІ killer.exe Р±РµР· РїР°СЂР°РјРµС‚СЂРѕРІ
+    std::cout << "\n----- РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј PROC_TO_KILL РґР»СЏ mspaint.exe -----\n";
     SetEnvironmentVariableA("PROC_TO_KILL", "mspaint");
-    std::cout << "[User] PROC_TO_KILL установлена\n";
+    std::cout << "[User] PROC_TO_KILL СѓСЃС‚Р°РЅРѕРІР»РµРЅР°\n";
     RunKiller("Killer.exe");
 
-    // финальное состояние всех процессов
-    std::cout << "\n----- Финальное состояние всех процессов после PROC_TO_KILL без параметров-----\n";
+    // С„РёРЅР°Р»СЊРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РІСЃРµС… РїСЂРѕС†РµСЃСЃРѕРІ
+    std::cout << "\n----- Р¤РёРЅР°Р»СЊРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РІСЃРµС… РїСЂРѕС†РµСЃСЃРѕРІ РїРѕСЃР»Рµ PROC_TO_KILL Р±РµР· РїР°СЂР°РјРµС‚СЂРѕРІ-----\n";
     ExistsProcessById(chrome1);
     ExistsProcessById(chrome2);
     ExistsProcessById(chrome3);
@@ -99,26 +99,26 @@ int main()
     ExistsProcessById(mspaint2);
     ExistsProcessById(tg);
 
-    // чистим переменную окружения
+    // С‡РёСЃС‚РёРј РїРµСЂРµРјРµРЅРЅСѓСЋ РѕРєСЂСѓР¶РµРЅРёСЏ
     SetEnvironmentVariableA("PROC_TO_KILL", nullptr);
-    std::cout << "\n[User] PROC_TO_KILL удалена\n";
+    std::cout << "\n[User] PROC_TO_KILL СѓРґР°Р»РµРЅР°\n";
 
     return 0;
 }
 
-// общий метод создания и для обычного начала процесса, и для киллера
-// для удобства вводим флаг ожидания завершения (случай киллер) и возвращение id процесса
+// РѕР±С‰РёР№ РјРµС‚РѕРґ СЃРѕР·РґР°РЅРёСЏ Рё РґР»СЏ РѕР±С‹С‡РЅРѕРіРѕ РЅР°С‡Р°Р»Р° РїСЂРѕС†РµСЃСЃР°, Рё РґР»СЏ РєРёР»Р»РµСЂР°
+// РґР»СЏ СѓРґРѕР±СЃС‚РІР° РІРІРѕРґРёРј С„Р»Р°Рі РѕР¶РёРґР°РЅРёСЏ Р·Р°РІРµСЂС€РµРЅРёСЏ (СЃР»СѓС‡Р°Р№ РєРёР»Р»РµСЂ) Рё РІРѕР·РІСЂР°С‰РµРЅРёРµ id РїСЂРѕС†РµСЃСЃР°
 bool RunProcess(const std::string& cmdLine, bool wait, DWORD* pidOut = nullptr)
 {
-    STARTUPINFOA si{}; //структура для стартовой информации процесса
+    STARTUPINFOA si{}; //СЃС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ СЃС‚Р°СЂС‚РѕРІРѕР№ РёРЅС„РѕСЂРјР°С†РёРё РїСЂРѕС†РµСЃСЃР°
     si.cb = sizeof(si);
-    PROCESS_INFORMATION pi{}; //структура для управления процессом
+    PROCESS_INFORMATION pi{}; //СЃС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РїСЂРѕС†РµСЃСЃРѕРј
 
-    std::string buf = cmdLine; // просто копирую строку
+    std::string buf = cmdLine; // РїСЂРѕСЃС‚Рѕ РєРѕРїРёСЂСѓСЋ СЃС‚СЂРѕРєСѓ
 
     BOOL ok = CreateProcessA(
-        nullptr, // имя exe берём из командной строки
-        buf.data(), // передаём именно char* на внутренность строки, т.к. нужно передавать изменяемый обьект
+        nullptr, // РёРјСЏ exe Р±РµСЂС‘Рј РёР· РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
+        buf.data(), // РїРµСЂРµРґР°С‘Рј РёРјРµРЅРЅРѕ char* РЅР° РІРЅСѓС‚СЂРµРЅРЅРѕСЃС‚СЊ СЃС‚СЂРѕРєРё, С‚.Рє. РЅСѓР¶РЅРѕ РїРµСЂРµРґР°РІР°С‚СЊ РёР·РјРµРЅСЏРµРјС‹Р№ РѕР±СЊРµРєС‚
         nullptr,
         nullptr,
         FALSE,
@@ -130,7 +130,7 @@ bool RunProcess(const std::string& cmdLine, bool wait, DWORD* pidOut = nullptr)
     );
 
     if (!ok) {
-        std::cout << "[User] Ошибка CreateProcess для: " << cmdLine << ", код: " << GetLastError() << "\n";
+        std::cout << "[User] РћС€РёР±РєР° CreateProcess РґР»СЏ: " << cmdLine << ", РєРѕРґ: " << GetLastError() << "\n";
         return false;
     }
 
@@ -148,24 +148,24 @@ bool RunProcess(const std::string& cmdLine, bool wait, DWORD* pidOut = nullptr)
     return true;
 }
 
-// для удобства при создании процесса возвращаю сразу его pid, а не bool, но поэтому значение 0 буду считать как False 
-// и в дальнейшем обрабатывать как некорректно созданный процесс
+// РґР»СЏ СѓРґРѕР±СЃС‚РІР° РїСЂРё СЃРѕР·РґР°РЅРёРё РїСЂРѕС†РµСЃСЃР° РІРѕР·РІСЂР°С‰Р°СЋ СЃСЂР°Р·Сѓ РµРіРѕ pid, Р° РЅРµ bool, РЅРѕ РїРѕСЌС‚РѕРјСѓ Р·РЅР°С‡РµРЅРёРµ 0 Р±СѓРґСѓ СЃС‡РёС‚Р°С‚СЊ РєР°Рє False 
+// Рё РІ РґР°Р»СЊРЅРµР№С€РµРј РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ РєР°Рє РЅРµРєРѕСЂСЂРµРєС‚РЅРѕ СЃРѕР·РґР°РЅРЅС‹Р№ РїСЂРѕС†РµСЃСЃ
 DWORD StartProcess(const std::string& exeName)
 {
-    std::cout << "[User] Запуск процесса: " << exeName << "\n";
+    std::cout << "[User] Р—Р°РїСѓСЃРє РїСЂРѕС†РµСЃСЃР°: " << exeName << "\n";
     DWORD pid = 0;
     if (!RunProcess(exeName, false, &pid)) {
         return 0;
     }
-    std::cout << "[User] Процесс " << exeName << " создан, PID=" << pid << "\n";
+    std::cout << "[User] РџСЂРѕС†РµСЃСЃ " << exeName << " СЃРѕР·РґР°РЅ, PID=" << pid << "\n";
     return pid;
 }
 
 bool RunKiller(const std::string& cmdLine)
 {
-    std::cout << "[User] Killer начался\n";
+    std::cout << "[User] Killer РЅР°С‡Р°Р»СЃСЏ\n";
     bool ok = RunProcess(cmdLine, true, nullptr);
-    std::cout << "[User] Killer завершился\n";
+    std::cout << "[User] Killer Р·Р°РІРµСЂС€РёР»СЃСЏ\n";
     return ok;
 }
 
@@ -181,7 +181,7 @@ bool ExistsProcessById(DWORD pid)
     pe.dwSize = sizeof(pe);
 
     bool exists = false;
-    // логика аналогична KillProcessesByName, но сравниваем PID
+    // Р»РѕРіРёРєР° Р°РЅР°Р»РѕРіРёС‡РЅР° KillProcessesByName, РЅРѕ СЃСЂР°РІРЅРёРІР°РµРј PID
     if (Process32First(hSnap, &pe)) {
         do {
             if (pe.th32ProcessID == pid) {
@@ -192,6 +192,6 @@ bool ExistsProcessById(DWORD pid)
     }
 
     CloseHandle(hSnap);
-    std::cout << "[User] Процесс с PID=" << pid << " найден с результатом " << exists << "\n";
+    std::cout << "[User] РџСЂРѕС†РµСЃСЃ СЃ PID=" << pid << " РЅР°Р№РґРµРЅ СЃ СЂРµР·СѓР»СЊС‚Р°С‚РѕРј " << exists << "\n";
     return exists;
 }
